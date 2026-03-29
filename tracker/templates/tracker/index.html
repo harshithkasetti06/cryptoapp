@@ -11,10 +11,14 @@
         }
         .card {
             background: #1e1e1e;
-            margin: 20px;
             padding: 20px;
+            margin-top: 20px;
             border-radius: 10px;
             display: inline-block;
+        }
+        input {
+            padding: 10px;
+            width: 200px;
         }
         button {
             padding: 10px;
@@ -28,23 +32,15 @@
 
 <h1>🚀 Crypto Price Tracker</h1>
 
-<div class="card">
-    <h2>Bitcoin</h2>
-    <p>₹ {{ bitcoin }}</p>
-</div>
+<form method="GET">
+    <input type="text" name="coin" placeholder="Enter coin (bitcoin)" required>
+    <button type="submit">Search</button>
+</form>
 
 <div class="card">
-    <h2>Ethereum</h2>
-    <p>₹ {{ ethereum }}</p>
+    <h2>{{ coin|title }}</h2>
+    <p>₹ {{ price }}</p>
 </div>
-
-<div class="card">
-    <h2>Dogecoin</h2>
-    <p>₹ {{ dogecoin }}</p>
-</div>
-
-<br>
-<button onclick="location.reload()">Refresh</button>
 
 </body>
 </html>

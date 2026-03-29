@@ -2,14 +2,22 @@ import requests
 from django.shortcuts import render
 
 def home(request):
-    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,dogecoin&vs_currencies=inr"
-    response = requests.get(url)
-    data = response.json()
+    coin = request.GET.get('coin', 'bitcoin')  # default bitcoin
+
+    url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin}&vs_currencies=inr"
+    
+    try:
+        response = requests.get(url)
+        data = response.json()
+
+        price = data.get(coin, {}).get('inr', 'Not Found')
+
+    except:
+        price = "Error"
 
     context = {
-        'bitcoin': data['bitcoin']['inr'],
-        'ethereum': data['ethereum']['inr'],
-        'dogecoin': data['dogecoin']['inr'],
+        'coin': coin,
+        'price': price
     }
 
     return render(request, 'tracker/index.html', context)
