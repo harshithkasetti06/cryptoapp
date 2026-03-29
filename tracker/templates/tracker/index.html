@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crypto Tracker</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #121212;
+            color: white;
+        }
+        .card {
+            background: #1e1e1e;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        button {
+            padding: 10px;
+            background: orange;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🚀 Crypto Price Tracker</h1>
+
+<div class="card">
+    <h2>Bitcoin</h2>
+    <p>₹ {{ bitcoin }}</p>
+</div>
+
+<div class="card">
+    <h2>Ethereum</h2>
+    <p>₹ {{ ethereum }}</p>
+</div>
+
+<div class="card">
+    <h2>Dogecoin</h2>
+    <p>₹ {{ dogecoin }}</p>
+</div>
+
+<br>
+<button onclick="location.reload()">Refresh</button>
+
+</body>
+</html>
