@@ -1,1 +1,1 @@
-https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,dogecoin&vs_currencies=inr
+https://api.coingecko.com/api/v3/coins/{id}/market_chart?vs_currency=inr&days=7

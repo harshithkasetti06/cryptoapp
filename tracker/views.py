@@ -2,22 +2,40 @@ import requests
 from django.shortcuts import render
 
 def home(request):
-    coin = request.GET.get('coin', 'bitcoin')  # default bitcoin
+    query = request.GET.get('coin', 'bitcoin')
 
-    url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin}&vs_currencies=inr"
-    
     try:
-        response = requests.get(url)
-        data = response.json()
+        # 🔍 Search coin
+        search_url = f"https://api.coingecko.com/api/v3/search?query={query}"
+        search_res = requests.get(search_url).json()
 
-        price = data.get(coin, {}).get('inr', 'Not Found')
+        if search_res['coins']:
+            coin_id = search_res['coins'][0]['id']
+        else:
+            coin_id = None
+
+        if coin_id:
+            # 📊 FULL DATA API
+            url = f"https://api.coingecko.com/api/v3/coins/{coin_id}"
+            data = requests.get(url).json()
+
+            price = data['market_data']['current_price']['inr']
+            high_24h = data['market_data']['high_24h']['inr']
+            low_24h = data['market_data']['low_24h']['inr']
+            market_cap = data['market_data']['market_cap']['inr']
+            change_24h = data['market_data']['price_change_percentage_24h']
+
+        else:
+            price = high_24h = low_24h = market_cap = change_24h = "Not Found"
 
     except:
-        price = "Error"
+        price = high_24h = low_24h = market_cap = change_24h = "Error"
 
-    context = {
-        'coin': coin,
-        'price': price
-    }
-
-    return render(request, 'tracker/index.html', context)
+    return render(request, 'tracker/index.html', {
+        'coin': query,
+        'price': price,
+        'high_24h': high_24h,
+        'low_24h': low_24h,
+        'market_cap': market_cap,
+        'change_24h': change_24h,
+    })
